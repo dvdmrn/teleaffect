@@ -23,8 +23,8 @@
     </div>
     <div style="position: relative" class="margin">
       <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
-      <canvas id="ball"></canvas>
       <canvas id="overlay"></canvas>
+      <canvas id="ball"></canvas>
     </div>
 <!-- PASTE CONTROLS HERE IF WANT THEM BACK! --> 
 
@@ -69,12 +69,13 @@
         const dims = faceapi.matchDimensions(canvas, videoEl, true)
         const resizedResult = faceapi.resizeResults(result, dims)
 
-        // draw event! 
+      // !!! draw event! 
 
       //   if (withBoxes) {
       //     faceapi.draw.drawDetections(canvas, resizedResult)
       //   }
       //   faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
+      // end draw event==============
       }
 
       setTimeout(() => onPlay())

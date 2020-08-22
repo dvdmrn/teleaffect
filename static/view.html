@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="js/helpers.js"></script>
+  <script src="socket.io.js"></script>
+  <script src="socket.io-stream.js"></script>
+  <script type="text/javascript">
+    var socket = io();
+  </script>
+  <script src="js/commons.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+</head>
+<body>
+  <div class="center-content page-container">
+
+    <div class="progress" id="loader">
+      <div class="indeterminate"></div>
+    </div>
+    <div style="position: relative" class="margin">
+      <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
+      <canvas id="ball"></canvas>
+    </div>
+
+<script src="js/anim.js"></script>
+<script>
+	$("#loader").hide();
+</script>
+  </body>
+
+
+</body>
+</html>
