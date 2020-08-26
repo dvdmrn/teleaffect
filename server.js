@@ -9,6 +9,11 @@ app.use(express.urlencoded({ extended: true }))
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 var ss = require('socket.io-stream');
+const viewNamespace = io.of('/view');
+
+
+
+
 server.listen(3000);
 
 var allClients = [];
@@ -32,20 +37,25 @@ app.get('/view', (req, res) => res.sendFile(path.join(viewsDir, 'view.html')))
 io.on('connection', function(socket) {
   console.log(`client connected! ${socket.id}`)
   allClients.push(socket);
-  socket.emit('addClient', socket.id);
+  // socket.emit('addClient', socket.id);
+  viewNamespace.emit('addClient',socket.id);
 
+  // user disconnect event
   socket.on('disconnect', data=>{
     console.log(`client disconnected! ${socket.id}`)
-
-    socket.emit('removeClient',socket.id);
-
+    viewNamespace.emit('removeClient',socket.id);
     let i = allClients.indexOf(socket);
     allClients.splice(i, 1);
-
   })
 
   socket.on('positionalData', data => {
+    data.id = socket.id;
     io.emit('pos', data);
+    viewNamespace.emit('pos',data);
 
   });
 });
+
+viewNamespace.on('connection',(socket)=>{
+  console.log(`viewer connected! ${socket.id}`);
+})

@@ -5,9 +5,7 @@ var ctx = canvas.getContext('2d');
 fps = 15;
 
 var speed = 1;
-var _PADDING = 20;
-var _SINPAD = 10;
-var _RADIUS = 10;
+var _PADDING = 10;
 let circles = [];
 let circleIds = []; // inefficient code for efficient execution
 
@@ -50,7 +48,7 @@ class Circle{
     	this.amp = 0.95*this.amp + 0.05*this.mouthDistance
 	    // let sinMovement = (Math.cos((t * this.speed) - Math.PI)*this.amp)+(this.initY-this.amp-_PADDING)
 
-	    let sinMovement = (Math.cos((t * this.speed) - Math.PI)*this.amp)+(-this.amp-_SINPAD)
+	    let sinMovement = (Math.cos((t * this.speed) - Math.PI)*this.amp)+(-this.amp-_PADDING)
 
 	    // local movement =========================================================================
 
@@ -66,7 +64,7 @@ class Circle{
 
     };
 }
-// var circle = new Circle(canvas.width/2,0,canvas.width/2,canvas.height,0.005,10,"#f7a5f5",1,"69");
+var circle = new Circle(canvas.width/2,0,canvas.width/2,canvas.height,0.005,10,"#f7a5f5",1,"69");
 
 
 function draw() {
@@ -74,42 +72,25 @@ function draw() {
     ctx.fillStyle = "white";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-	// circle.update()
+	circle.update()
+    // singleIcon.update()
 
-    for(var i = 0; i < circles.length; i++) {
-        circles[i].update();
-    }
+    // for(var i = 0; i < circles.length; i++) {
+    //     circles[i].update();
+    // }
 
     setTimeout(requestAnimationFrame(draw), 1000/fps);
 }
 
+draw()
 
-function updateCircleInitPos(){
-	for(i=0;i<circles.length;i++){
-		circles[i].initX = canvas.width-((i+1)*(_RADIUS+_PADDING));
-	}
-}
-
-function parameterizeCircle(indx,data){
-	circles[indx].mouthDistance = Math.max(mapRange(data.dist, 1200, 2000, 1,30),0);
-	// circle.speed = mapRange(data.dist, 800, 2000, 0,0.01);
-	if(data.globalPos._x){
-		circles[indx].localX = data.globalPos._x;
-		circles[indx].localY = data.globalPos._y;
-	}
-	circles[indx].eyeDist = data.eyeDist;
-	// console.log(circle.localX)
-	// console.log(data.globalPos);
-	// console.log(data.dist-1000);
-}
 
 // TODO: emit to all clients or the viewer only. Assume this is the viewer? See notebook for more info
 socket.on('addClient',(client)=>{
-	console.log(`user ${client} just joined!`,circles);
-	
 	let circle = new Circle(canvas.width/2,0,canvas.width/2,canvas.height,0.005,10,"#f7a5f5",1,client);
 	circles.push(circle);
-	updateCircleInitPos();
+	console.log(`user ${client} just joined!`,circles);
+
 })
 
 socket.on('removeClient',(client)=>{
@@ -118,20 +99,26 @@ socket.on('removeClient',(client)=>{
       console.log(`client ${client} left!`)
       for(i=0;i<circles.length;i++){
       	if(circles[i].id==client){
-			console.log(`user ${client} just left! Goodbye!`,circles);
       		circles.splice(i, 1);
-			updateCircleInitPos();
-      		return
+			console.log(`user ${client} just left! Goodbye!`,circles);
+      		return	
       	}
       }
 
 
 })
 socket.on('pos',(data)=>{
-	if(circles.length>1){
-		let indx = circles.map(e=>e.id).indexOf(data.id);
-		parameterizeCircle(indx,data);
-	}
-	
 
+
+	
+	circle.mouthDistance = Math.max(mapRange(data.dist, 1200, 2000, 1,30),0);
+	// circle.speed = mapRange(data.dist, 800, 2000, 0,0.01);
+	if(data.globalPos._x){
+		circle.localX = data.globalPos._x;
+		circle.localY = data.globalPos._y;
+	}
+	circle.eyeDist = data.eyeDist;
+	// console.log(circle.localX)
+	// console.log(data.globalPos);
+	// console.log(data.dist-1000);
 })
