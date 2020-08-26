@@ -73,7 +73,6 @@ function draw() {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	circle.update()
-    // singleIcon.update()
 
     // for(var i = 0; i < circles.length; i++) {
     //     circles[i].update();

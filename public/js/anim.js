@@ -128,10 +128,14 @@ socket.on('removeClient',(client)=>{
 
 })
 socket.on('pos',(data)=>{
-	if(circles.length>1){
+	console.log('posEvent',data.id);
+	if(circles.length>=1){
 		let indx = circles.map(e=>e.id).indexOf(data.id);
 		parameterizeCircle(indx,data);
 	}
 	
 
 })
+
+
+draw()
