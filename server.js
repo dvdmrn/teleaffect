@@ -19,14 +19,15 @@ server.listen(PORT);
 var allClients = [];
 
 console.log("hello");
-
 const viewsDir = path.join(__dirname, 'static')
 app.use(express.static(viewsDir))
-app.use(express.static(path.join(__dirname, './public')))
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, '../images')))
 app.use(express.static(path.join(__dirname, '../media')))
 app.use(express.static(path.join(__dirname, './weights')))
-app.use(express.static(path.join(__dirname, './dist')))
+app.use(express.static(path.join(__dirname, 'dist')))
+console.log("base dir: ",__dirname);
+console.log("dist folder: ",path.join(__dirname, 'dist'));
 
 app.get('/', (req, res) => res.redirect('/'))
 app.get('/client', (req, res) => res.sendFile(path.join(viewsDir, 'client.html')))
