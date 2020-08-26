@@ -54,7 +54,6 @@ class Circle{
 
 	    // local movement =========================================================================
 
-	    // TODO: smooth this shit out
 
         this.draw();
         let localXMovement = this.initX+((this.localX-250)/2);
@@ -128,12 +127,11 @@ socket.on('removeClient',(client)=>{
 
 })
 socket.on('pos',(data)=>{
-	if(circles.length>=1){
+	// conditional is here because async
+	if(circles.length>0){
 		let indx = circles.map(e=>e.id).indexOf(data.id);
 		parameterizeCircle(indx,data);
-	}
-	
-
+	}	
 })
 
 
