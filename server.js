@@ -18,7 +18,7 @@ server.listen(PORT);
 
 var allClients = [];
 
-console.log("hello");
+console.log("serving on port: ",PORT);
 const viewsDir = path.join(__dirname, 'static')
 app.use(express.static(viewsDir))
 app.use(express.static(path.join(__dirname, 'public')))
